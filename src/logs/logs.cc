@@ -400,7 +400,8 @@ void logs::write_cpu_log(void)
 
       All.CPU_TimeBinMeasurements[All.HighestActiveTimeBin][All.CPU_TimeBinCountMeasurements[All.HighestActiveTimeBin]++] = max_total;
 
-      fprintf(FdCPUCSV, "%d, %g, %d, %d, ", All.NumCurrentTiStep, All.Time, NTask, All.HighestActiveTimeBin);
+      // the -1 should be MultipleDomains, patch fix for now to make csv file work
+      fprintf(FdCPUCSV, "%d, %g, %d, %d, %d, ", All.NumCurrentTiStep, All.Time, NTask, -1, All.HighestActiveTimeBin);
 
       fprintf(FdCPU, "Step %d, Time: %g, CPUs: %d, HighestActiveTimeBin: %d\n", All.NumCurrentTiStep, All.Time, NTask,
               All.HighestActiveTimeBin);
