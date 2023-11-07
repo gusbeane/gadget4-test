@@ -203,6 +203,10 @@ void sim::run(void)
       /* output some CPU usage log-info (accounts for everything needed up to complete the previous timestep) */
       Logs.write_cpu_log();
 
+#ifdef BLACKHOLE_FINEOUTPUT
+      Logs.write_BH_log();
+#endif
+
 #ifdef STOP_AFTER_STEP
       if(All.NumCurrentTiStep == STOP_AFTER_STEP)
         {

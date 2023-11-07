@@ -62,6 +62,11 @@ class logs : public setcomm
   FILE *FdSfr; /**< file handle for sfr.txt log-file. */
 #endif
 
+#ifdef BLACKHOLE_FINEOUTPUT
+  FILE *FdBH;
+  void write_BH_log(void);
+#endif
+
 #ifdef DEBUG_MD5
   FILE *FdDebug; /**< file handle for debug_md5.txt log-file. */
 #endif

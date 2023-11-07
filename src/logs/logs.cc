@@ -124,6 +124,12 @@ void logs::open_logfiles(void)
   if(!(FdSfr = fopen(buf, mode)))
     Terminate("error in opening file '%s'\n", buf);
 #endif
+
+#ifdef BLACKHOLE_FINEOUTPUT
+  snprintf(buf, MAXLEN_PATH_EXTRA, "%s%s", All.OutputDir, "BH.txt");
+  if(!(FdBH = fopen(buf, mode)))
+    Terminate("error in opening file '%s'\n", buf);
+#endif
 }
 
 int logs::flush_everything(void)
@@ -161,6 +167,10 @@ int logs::flush_everything(void)
 
 #ifdef STARFORMATION
   fflush(FdSfr);
+#endif
+
+#ifdef BLACKHOLE_FINEOUTPUT
+  fflush(FdBH);
 #endif
 
   return 1;
@@ -429,6 +439,31 @@ void logs::write_cpu_log(void)
 
   TIMER_STOP(CPU_LOGS);
 }
+
+#ifdef BLACKHOLE_FINEOUTPUT
+/*! \brief Write the FdBH file.
+ *
+ * At each time step this function write out the time, position,
+ * and velocity of the BH particle. Note that this fails if there
+ * are more than one black hole (TODO: make this work with more
+ * than one BH).
+ * TODO make this accept correct particle type
+ */
+void logs::write_BH_log(void)
+{
+  for(int i=0; i<NumPart; i++)
+  {
+    if(P[i].Type==5)
+    {
+      fprintf(FdBH, "%14e %14e %14e %14e %14e %14e %14e\n", All.Time,
+                    P[i].Pos[0], P[i].Pos[1], P[i].Pos[2],
+                    P[i].Vel[0], P[i].Vel[1], P[i].Vel[2]);
+      myflush(FdBH);
+      break;
+    } 
+  }
+}
+#endif
 
 /*! \brief Fill the cpu balance string representing the cpu usage in a graphical way
  *
