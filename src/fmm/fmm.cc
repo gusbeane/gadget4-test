@@ -1156,6 +1156,11 @@ inline int fmm::fmm_evaluate_node_node_opening_criterion(gravnode *noptr_sink, g
      1)  // always open the root node, and the next level (note: full node length does not fit in the integer type)
     return NODE_OPEN;
 
+#ifdef TEST_PARTICLES
+  if(noptr_source->mass == 0.0)
+    return NODE_DISCARD;
+#endif
+
   /* Note: we will always have noptr_sink->len == noptr_source->len in our algorithm! */
 
   MyIntPosType halflen = ((MyIntPosType)1) << ((BITS_FOR_POSITIONS - 1) - noptr_sink->level);
@@ -1285,6 +1290,11 @@ inline int fmm::fmm_evaluate_particle_node_opening_criterion(int no_sink, char t
 #endif
 #if defined(PMGRID) && defined(PLACEHIGHRESREGION)
   int test_point;
+#endif
+
+#ifdef TEST_PARTICLES
+  if(nop_source->mass == 0.0)
+    return NODE_DISCARD;
 #endif
 
   if(type_sink == NODE_TYPE_LOCAL_PARTICLE)

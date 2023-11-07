@@ -369,6 +369,14 @@ halo, with parameters specified in the parameterfile.
 
 -------
 
+**TEST_PARTICLES**
+
+Indicates that test particles are present in the simulation and will
+speed up associated FMM calculations. Any zero-mass particle will be
+considered a test particle. 
+
+-------
+
 
 TreePM Options                                             {#treepm}
 ==============
